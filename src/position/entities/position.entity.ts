@@ -16,6 +16,6 @@ export class Position {
     @ManyToOne(() => Department, (department) => department.positions)
     department: Department
 
-    @OneToOne(() => Employee, (employee) => employee.position)
-    employee: Employee
+    @OneToMany(() => Employee, (employee) => employee.position)
+    employees: Employee[]
 }

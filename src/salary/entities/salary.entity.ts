@@ -8,6 +8,6 @@ export class Salary {
 
     // @Column({ type: "" })
 
-    // @OneToOne(() => Employee, (employee) => employee.salary)
-    // employee: Employee
+    @OneToOne(() => Employee, (employee) => employee.salary)
+    employee: Employee
 }
