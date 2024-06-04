@@ -7,19 +7,33 @@ import { EmployeeModule } from './employee/employee.module';
 import { DepartmentModule } from './department/department.module';
 import { PositionModule } from './position/position.module';
 import { SalaryModule } from './salary/salary.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'db',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'postgres',
-      entities: [],
-      synchronize: true,
-      autoLoadEntities: true,
+    // config for env variables
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+
+    // connect to the database server
+    TypeOrmModule.forRootAsync({
+      // setup use the env variable
+      imports: [ConfigModule],
+      inject: [ConfigService],
+
+      useFactory: (configService: ConfigService) => ({        
+        type: 'postgres',
+        host: configService.get<string>("DATABASE_HOST"),
+        port: configService.get<number>("DATABASE_PORT"),
+        username: configService.get<string>("DATABASE_USER"),
+        password: configService.get<string>("DATABASE_PASSWORD"),
+        database: configService.get<string>("DATABASE_NAME"),
+        entities: [],
+        synchronize: true,
+        autoLoadEntities: true,
+      })
     }),
     AuthModule,
     EmployeeModule,
