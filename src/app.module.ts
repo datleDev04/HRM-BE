@@ -2,12 +2,13 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
-import { EmployeeModule } from './employee/employee.module';
-import { DepartmentModule } from './department/department.module';
-import { PositionModule } from './position/position.module';
-import { SalaryModule } from './salary/salary.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { EmployeeModule } from './modules/employee/employee.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { DepartmentModule } from './modules/department/department.module';
+import { PositionModule } from './modules/position/position.module';
+import { ContractModule } from './modules/contract/contract.module';
+import { InsuranceModule } from './modules/insurance/insurance.module';
 
 @Module({
   imports: [
@@ -35,11 +36,18 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         autoLoadEntities: true,
       })
     }),
-    AuthModule,
+
     EmployeeModule,
+
+    AuthModule,
+
     DepartmentModule,
+
     PositionModule,
-    SalaryModule,
+
+    ContractModule,
+
+    InsuranceModule,
   ],
   controllers: [AppController],
   providers: [AppService],
